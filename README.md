@@ -2,6 +2,18 @@
 
 This JavaScript library provides convenient methods for working with AWS Location Service, including functions for getting directions and reverse geocoding.  
 
+## Features
+
+- **Get Directions:** Calculate the route between two sets of coordinates with ease. Use the `getDirections` function to retrieve the path from a start location to a destination.
+
+- **Reverse Geocoding:** Perform reverse geocoding by providing coordinates, and get detailed address information in return. Utilize the `reverseGeocode` function to obtain an address based on a set of coordinates.
+
+- **Convenient Integration:** Seamlessly integrate with AWS Location Service, making it easy to leverage powerful geospatial capabilities in your Node.js applications.
+
+- **Simple and Readable:** The library is designed with simplicity in mind, offering clear and readable methods for working with location-based services.
+
+
+
 ## Installation
 
 Using npm.
