@@ -31,4 +31,6 @@ const targetCoordinates = { lat: 40.7128, lng: -74.0060 }
 const address = await location.reverseGeocode(targetCoordinates)
 ```
 
+
 ## License
+Location is [MIT Licensed](https://github.com/sswahn/location/blob/main/LICENSE)
