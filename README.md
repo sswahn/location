@@ -1,6 +1,6 @@
 # Location · [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/sswahn/location/blob/main/LICENSE) ![npm version](https://img.shields.io/npm/v/@sswahn/location)
 
-This JavaScript library provides convenient methods for working with AWS Location Service, including functions for getting directions and reverse geocoding.  
+This library provides convenient methods for working with AWS Location Service, including functions for getting directions and reverse geocoding.  
 
 ## Features
 - **Get Directions:** Calculate the route between two sets of coordinates with ease. Use the `getDirections` function to retrieve the path from a start location to a destination.
