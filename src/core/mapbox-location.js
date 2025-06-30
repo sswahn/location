@@ -1,65 +1,50 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from 'react'
 
-const MAPBOX_TOKEN = "YOUR_MAPBOX_ACCESS_TOKEN";
+const MAPBOX_TOKEN = 'YOUR_MAPBOX_ACCESS_TOKEN'
 
-export default function LocationAutocomplete() {
-  const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
-  const [selected, setSelected] = useState(null);
+const LocationAutocomplete = () => {
+  const [query, setQuery] = useState('')
+  const [data, setData] = useState([])
+  const [selected, setSelected] = useState(null)
 
-  // Debounce query changes
+  const getLocations = async controller => {
+    try {
+      const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${MAPBOX_TOKEN}&autocomplete=true&limit=5`, { 
+        signal: controller.signal
+      })
+      const json = await response.json()
+      setData(json.features || [])
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleSelect = location => {
+    setSelected(location)
+    setQuery(location.place_name)
+    setData([])
+  }
+  
   useEffect(() => {
-    if (!query) return setResults([]);
-
-    const controller = new AbortController();
-
-    const fetchSuggestions = async () => {
-      try {
-        const res = await fetch(
-          `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
-            query
-          )}.json?access_token=${MAPBOX_TOKEN}&autocomplete=true&limit=5`,
-          { signal: controller.signal }
-        );
-        const data = await res.json();
-        setResults(data.features || []);
-      } catch (err) {
-        if (err.name !== "AbortError") console.error(err);
-      }
-    };
-
-    const timeout = setTimeout(fetchSuggestions, 300);
-
+    if (!query) {
+      return setData([])
+    }
+    const controller = new AbortController()
+    const timeout = setTimeout(() => getLocations(controller), 300) // Debounce query changes
     return () => {
-      clearTimeout(timeout);
-      controller.abort();
-    };
-  }, [query]);
-
-  const handleSelect = (place) => {
-    setSelected(place);
-    setQuery(place.place_name);
-    setResults([]);
-  };
+      clearTimeout(timeout)
+      controller.abort()
+    }
+  }, [query])
 
   return (
     <div className="w-full max-w-md mx-auto mt-10 relative">
-      <input
-        type="text"
-        value={query}
-        placeholder="Search for a location"
-        onChange={(e) => setQuery(e.target.value)}
-        className="w-full p-2 border border-gray-300 rounded"
-      />
-      {results.length > 0 && (
+      <input className="w-full p-2 border border-gray-300 rounded" type="text" value={query} placeholder="Search for a location" onChange={({ target: { value } }) => setQuery(value)} />
+      {data.length > 0 && (
         <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded shadow mt-1 max-h-60 overflow-auto">
-          {results.map((place) => (
-            <li
-              key={place.id}
-              onClick={() => handleSelect(place)}
-              className="p-2 hover:bg-gray-100 cursor-pointer"
-            >
-              {place.place_name}
+          {data.map(location => (
+            <li key={location.id} className="p-2 hover:bg-gray-100 cursor-pointer" onClick={() => handleSelect(location)}>
+              {location.place_name}
             </li>
           ))}
         </ul>
@@ -70,5 +55,7 @@ export default function LocationAutocomplete() {
         </div>
       )}
     </div>
-  );
+  )
 }
+
+export default LocationAutocomplete
