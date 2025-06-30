@@ -12,7 +12,7 @@ const MapDisplay = () => {
   const [context, dispatch] = useContext(Context)
   const mapContainerRef = useRef(null)
   const mapRef = useRef(null)
-  const markerRef = useRef(null);
+  const markerRef = useRef(null)
 
   const loadMap = () => {
     if (!context.location) {
@@ -22,16 +22,14 @@ const MapDisplay = () => {
     if (!mapRef.current) {
       mapRef.current = new mapboxgl.Map({
         container: mapContainerRef.current,
-        style: "mapbox://styles/mapbox/streets-v11",
+        style: 'mapbox://styles/mapbox/streets-v11',
         center,
         zoom: 12,
       })
       return
-    } 
-    mapRef.current.flyTo({ center, zoom: 12 })
-    if (mapRef.current) {
-      markerRef.current.remove() // Remove previous marker
     }
+    mapRef.current.flyTo({ center, zoom: 12 })
+    mapRef.current && markerRef.current.remove() // Remove previous marker
     markerRef.current = new mapboxgl.Marker().setLngLat(center).addTo(mapRef.current) // Add new marker
   }
   
