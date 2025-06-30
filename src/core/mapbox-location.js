@@ -33,6 +33,7 @@ const LocationAutocomplete = () => {
 
   const handleSelect = location => {
     dispatch({ type: 'location', payload: location })
+    storage.local.set('location', location) // need to import lib
     setSelected(location)
     setQuery(location.place_name)
     setData([])
