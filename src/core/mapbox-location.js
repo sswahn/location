@@ -1,6 +1,16 @@
 import { useState, useEffect } from 'react'
 
-const MAPBOX_TOKEN = 'YOUR_MAPBOX_ACCESS_TOKEN'
+/*
+Set restrictions on public token:
+
+  ✅ Enable only the APIs you need (e.g. Geocoding, Maps).
+
+  ✅ Add your domain for domain restricting (e.g. https://myapp.com).
+
+  ✅ Optionally allow http://localhost:3000 for local dev.
+*/
+
+const MAPBOX_TOKEN = 'YOUR_MAPBOX_PUBLIC_ACCESS_TOKEN'
 
 const LocationAutocomplete = () => {
   const [query, setQuery] = useState('')
