@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState, useContext, useEffect } from 'react'
+import { Context } from '../../Provider'
 
 /*
 Set restrictions on public token:
@@ -13,6 +14,7 @@ Set restrictions on public token:
 const MAPBOX_TOKEN = 'YOUR_MAPBOX_PUBLIC_ACCESS_TOKEN'
 
 const LocationAutocomplete = () => {
+  const [context, dispatch] = useContext(Context)
   const [query, setQuery] = useState('')
   const [data, setData] = useState([])
   const [selected, setSelected] = useState(null)
@@ -30,6 +32,7 @@ const LocationAutocomplete = () => {
   }
 
   const handleSelect = location => {
+    dispatch({ type: 'location', payload: location })
     setSelected(location)
     setQuery(location.place_name)
     setData([])
